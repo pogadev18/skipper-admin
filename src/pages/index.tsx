@@ -1,8 +1,8 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 
 import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
+import PageLayout from "~/components/layout";
 
 const Home: NextPage = () => {
   return (
@@ -12,20 +12,9 @@ const Home: NextPage = () => {
         <meta name="description" content={META_DESCRIPTION} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <h1>Hello</h1>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            padding: 20,
-          }}
-        >
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
-      </main>
+      <PageLayout>
+        <p>hello</p>
+      </PageLayout>
     </>
   );
 };
