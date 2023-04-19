@@ -11,8 +11,25 @@ datasource db {
   relationMode = "prisma"
 }
   
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  barcode     String
+  price       Float
+  imageUrl    String?
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  userId      String
+
+  @@index([categoryId])
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String
+  products    Product[]
+
+  userId      String
 }
