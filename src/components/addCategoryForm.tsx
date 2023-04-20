@@ -1,6 +1,10 @@
+import type { FC } from "react";
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
+import { LoadingSpinner } from "./loading";
 
 export const formSchema = z.object({
   category: z
@@ -12,21 +16,25 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-const AddCategoryForm = () => {
+type AddCategoryFormProps = {
+  onSubmit: SubmitHandler<FormData>;
+  mutationInProgress: boolean;
+};
+
+const AddCategoryForm: FC<AddCategoryFormProps> = ({
+  onSubmit,
+  mutationInProgress,
+}) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
-  const addCategory = (data: FormData) => {
-    console.log("data", data);
-  };
-
   return (
-    <form noValidate onSubmit={handleSubmit(addCategory)}>
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="category">Category</label>
       <input
         className="block w-full rounded-lg rounded-br-none rounded-tr-none border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -37,13 +45,19 @@ const AddCategoryForm = () => {
       {errors.category && (
         <p className="text-sm  text-red-600">{errors.category.message}</p>
       )}
-      <button
-        disabled={isSubmitting}
-        type="submit"
-        className="w-1/2 rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white"
-      >
-        Add
-      </button>
+      {mutationInProgress ? (
+        <div className="my-4">
+          <LoadingSpinner size={32} />
+        </div>
+      ) : (
+        <button
+          disabled={mutationInProgress}
+          type="submit"
+          className="my-4 rounded-lg bg-green-600 px-10 py-2.5 text-center text-sm font-medium text-white disabled:bg-slate-500"
+        >
+          Add
+        </button>
+      )}
     </form>
   );
 };

@@ -2,17 +2,34 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { BiCategory } from "react-icons/bi";
+import { toast } from "react-hot-toast";
 
-import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
 import PageLayout from "~/components/layout";
 import Modal from "~/components/modal";
-import { strings } from "~/utils/strings";
 import AddCategoryForm from "~/components/addCategoryForm";
+import type { FormData } from "~/components/addCategoryForm";
+
+import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
+import { strings } from "~/utils/strings";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
   const { ADD_PRODUCT_CAT_MODAL_TITLE, ADD_PRODUCT_CAT_MODAL_DESCRIPTION } =
     strings;
+
+  const { mutate, isLoading: isAddingCategory } =
+    api.category.create.useMutation({
+      onSuccess: () => {
+        toast.success("Category added");
+        setShowModal(false);
+      },
+      onError: (e) => {
+        toast.error(e.message);
+      },
+    });
+
+  const addCategory = (data: FormData) => mutate(data);
 
   return (
     <>
@@ -38,7 +55,10 @@ const Home: NextPage = () => {
             open={showModal}
             setOpen={setShowModal}
           >
-            <AddCategoryForm />
+            <AddCategoryForm
+              onSubmit={addCategory}
+              mutationInProgress={isAddingCategory}
+            />
           </Modal>
         </section>
       </PageLayout>

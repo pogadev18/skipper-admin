@@ -32,4 +32,6 @@ model Category {
   products    Product[]
 
   userId      String
+
+  @@unique([category, userId])
 }
