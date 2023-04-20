@@ -18,7 +18,7 @@ model Product {
   barcode     String
   price       Float
   imageUrl    String?
-  categoryId  Int
+  categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
 
   userId      String
@@ -27,8 +27,8 @@ model Product {
 }
 
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String
+  id          String   @id @default(cuid())
+  category    String
   products    Product[]
 
   userId      String

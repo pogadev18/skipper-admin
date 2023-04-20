@@ -1,12 +1,13 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { MdProductionQuantityLimits } from "react-icons/md";
+import { BiCategory } from "react-icons/bi";
 
 import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
 import PageLayout from "~/components/layout";
 import Modal from "~/components/modal";
 import { strings } from "~/utils/strings";
+import AddCategoryForm from "~/components/addCategoryForm";
 
 const Home: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,23 +25,20 @@ const Home: NextPage = () => {
         <section className="mt-5">
           <button
             onClick={() => setShowModal(true)}
-            className="rounded bg-lime-600 p-2 text-white transition-all hover:bg-lime-700 "
+            className="text-bold fixed right-5 top-40 underline shadow-xl transition-all hover:translate-x-[-3px]"
           >
-            add product category
+            <BiCategory className="h-12 w-12 rounded bg-black p-2 text-white" />
           </button>
           <Modal
             icon={
-              <MdProductionQuantityLimits
-                className="h-6 w-6 text-white"
-                aria-hidden="true"
-              />
+              <BiCategory className="h-6 w-6 text-white" aria-hidden="true" />
             }
             title={ADD_PRODUCT_CAT_MODAL_TITLE}
             description={ADD_PRODUCT_CAT_MODAL_DESCRIPTION}
             open={showModal}
             setOpen={setShowModal}
           >
-            <p>add categories</p>
+            <AddCategoryForm />
           </Modal>
         </section>
       </PageLayout>
