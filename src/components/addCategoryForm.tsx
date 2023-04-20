@@ -1,6 +1,6 @@
 import type { FC } from "react";
+import type { SubmitHandler } from "react-hook-form/dist/types/form";
 import { useForm } from "react-hook-form";
-import type { SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -17,7 +17,7 @@ export const formSchema = z.object({
 export type FormData = z.infer<typeof formSchema>;
 
 type AddCategoryFormProps = {
-  onSubmit: SubmitHandler<FormData>;
+  onSubmit: SubmitHandler<FormData> | ((data: FormData) => void);
   mutationInProgress: boolean;
 };
 

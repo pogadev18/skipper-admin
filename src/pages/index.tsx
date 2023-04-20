@@ -29,8 +29,6 @@ const Home: NextPage = () => {
       },
     });
 
-  const addCategory = (data: FormData) => mutate(data);
-
   return (
     <>
       <Head>
@@ -56,7 +54,7 @@ const Home: NextPage = () => {
             setOpen={setShowModal}
           >
             <AddCategoryForm
-              onSubmit={addCategory}
+              onSubmit={(data: FormData) => mutate(data)}
               mutationInProgress={isAddingCategory}
             />
           </Modal>
