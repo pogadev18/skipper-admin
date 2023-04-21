@@ -7,4 +7,9 @@ export const strings = {
   CATEGORY_LABEL: "Category",
   ADD: "Add",
   CANCEL: "Cancel",
+  CATEGORY_ADDED_SUCCESS: "Category added successfully",
+  PRODUCT_NAME_LABEL: "Product Name",
+  PRODUCT_DESCRIPTION_LABEL: "Product Description",
+  PRODUCT_BARCODE_LABEL: "Product Barcode",
+  PRODUCT_PRICE_LABEL: "Product Price",
 };

@@ -18,7 +18,7 @@ export const formSchema = z.object({
 
 export type FormData = z.infer<typeof formSchema>;
 
-type AddCategoryFormProps = {
+export type AddCategoryFormProps = {
   onSubmit: SubmitHandler<FormData> | ((data: FormData) => void);
   mutationInProgress: boolean;
 };
@@ -40,7 +40,7 @@ const AddCategoryForm: FC<AddCategoryFormProps> = ({
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <label htmlFor="category">{strings.CATEGORY_LABEL}</label>
       <input
-        className="block w-full rounded-lg rounded-br-none rounded-tr-none border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+        className="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
         id="category"
         type="text"
         {...register("category")}
