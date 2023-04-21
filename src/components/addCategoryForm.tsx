@@ -6,6 +6,8 @@ import * as z from "zod";
 
 import { LoadingSpinner } from "./loading";
 
+import { strings } from "~/utils/strings";
+
 export const formSchema = z.object({
   category: z
     .string()
@@ -34,8 +36,9 @@ const AddCategoryForm: FC<AddCategoryFormProps> = ({
   });
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="category">Category</label>
+      <label htmlFor="category">{strings.CATEGORY_LABEL}</label>
       <input
         className="block w-full rounded-lg rounded-br-none rounded-tr-none border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
         id="category"
@@ -55,7 +58,7 @@ const AddCategoryForm: FC<AddCategoryFormProps> = ({
           type="submit"
           className="my-4 rounded-lg bg-green-600 px-10 py-2.5 text-center text-sm font-medium text-white disabled:bg-slate-500"
         >
-          Add
+          {strings.ADD}
         </button>
       )}
     </form>

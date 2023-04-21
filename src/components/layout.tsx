@@ -1,20 +1,7 @@
 import type { PropsWithChildren } from "react";
-import { SignedIn, UserButton } from "@clerk/nextjs";
 
 import Sidebar from "./sidebar";
-
-const Header = () => {
-  return (
-    <header className="flex h-12 items-center justify-between border-b border-slate-300">
-      <h1 className="text-xl font-bold uppercase">Skipper Admin</h1>
-      <div>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </div>
-    </header>
-  );
-};
+import Header from "./header";
 
 const PageLayout = (props: PropsWithChildren) => {
   return (

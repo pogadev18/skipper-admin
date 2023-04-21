@@ -12,17 +12,24 @@ import type { FormData } from "~/components/addCategoryForm";
 import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
 import { strings } from "~/utils/strings";
 import { api } from "~/utils/api";
+import { LoadingSpinner } from "~/components/loading";
 
 const Home: NextPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const { ADD_PRODUCT_CAT_MODAL_TITLE, ADD_PRODUCT_CAT_MODAL_DESCRIPTION } =
-    strings;
+  const { ADD_PRODUCT_CAT_MODAL_TITLE, LOREM_IPSUM } = strings;
 
-  const { mutate, isLoading: isAddingCategory } =
+  // trpc cache context
+  const ctx = api.useContext();
+
+  const { data: categories, isLoading: isLoadingCategories } =
+    api.category.getAll.useQuery();
+
+  const { mutate: createCategory, isLoading: isAddingCategory } =
     api.category.create.useMutation({
       onSuccess: () => {
         toast.success("Category added");
         setShowModal(false);
+        void ctx.category.getAll.invalidate();
       },
       onError: (e) => {
         toast.error(e.message);
@@ -49,15 +56,26 @@ const Home: NextPage = () => {
               <BiCategory className="h-6 w-6 text-white" aria-hidden="true" />
             }
             title={ADD_PRODUCT_CAT_MODAL_TITLE}
-            description={ADD_PRODUCT_CAT_MODAL_DESCRIPTION}
+            description={LOREM_IPSUM}
             open={showModal}
             setOpen={setShowModal}
           >
             <AddCategoryForm
-              onSubmit={(data: FormData) => mutate(data)}
+              onSubmit={(data: FormData) => createCategory(data)}
               mutationInProgress={isAddingCategory}
             />
           </Modal>
+          <div>
+            {isLoadingCategories ? (
+              <LoadingSpinner />
+            ) : (
+              <ul>
+                {categories?.map((c) => (
+                  <li key={c.id}>{c.category}</li>
+                ))}
+              </ul>
+            )}
+          </div>
         </section>
       </PageLayout>
     </>

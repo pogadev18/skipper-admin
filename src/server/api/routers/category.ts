@@ -4,6 +4,13 @@ import { formSchema } from "~/components/addCategoryForm";
 import { TRPCError } from "@trpc/server";
 
 export const categoryRouter = createTRPCRouter({
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.category.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }),
   create: protectedProcedure
     .input(formSchema)
     .mutation(async ({ ctx, input }) => {

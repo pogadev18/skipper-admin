@@ -13,6 +13,8 @@ datasource db {
   
 model Product {
   id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
   name        String
   description String
   barcode     String
@@ -24,10 +26,13 @@ model Product {
   userId      String
 
   @@index([categoryId])
+  @@unique([name, userId, barcode])
 }
 
 model Category {
   id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+
   category    String
   products    Product[]
 

@@ -2,6 +2,8 @@ import { Fragment, useRef } from "react";
 import type { Dispatch, SetStateAction, ReactNode } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
+import { strings } from "~/utils/strings";
+
 interface ModalProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -73,7 +75,7 @@ const Modal = (props: ModalProps) => {
                     className="inline-flex w-full justify-center px-3 py-2 text-sm font-semibold text-black sm:ml-3 sm:w-auto"
                     onClick={() => props.setOpen(false)}
                   >
-                    cancel
+                    {strings.CANCEL}
                   </button>
                 </div>
               </Dialog.Panel>
