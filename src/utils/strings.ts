@@ -12,4 +12,6 @@ export const strings = {
   PRODUCT_DESCRIPTION_LABEL: "Product Description",
   PRODUCT_BARCODE_LABEL: "Product Barcode",
   PRODUCT_PRICE_LABEL: "Product Price",
+  PRODUCT_IMAGE_UPLOAD_LABEL: "Upload a Product Image",
+  CLICK_TO_UPLOAD: "Click to upload",
 };

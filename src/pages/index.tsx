@@ -11,6 +11,7 @@ import AddCategoryForm from "~/components/addCategoryForm";
 import type { FormData } from "~/components/addCategoryForm";
 import { LoadingSpinner } from "~/components/loading";
 import AddProductForm from "~/components/addProductForm";
+import type { AddProductFormData } from "~/components/addProductForm";
 
 import { META_DESCRIPTION, META_TITLE } from "~/utils/constants";
 import { strings } from "~/utils/strings";
@@ -92,7 +93,10 @@ const Home: NextPage = () => {
             open={showProductModal}
             setOpen={setShowProductModal}
           >
-            <AddProductForm />
+            <AddProductForm
+              onSubmit={(data: AddProductFormData) => console.log(data)}
+              mutationInProgress={false}
+            />
           </Modal>
           <div>
             {isLoadingCategories ? (

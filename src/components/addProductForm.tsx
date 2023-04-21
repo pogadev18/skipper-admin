@@ -7,11 +7,13 @@ import * as z from "zod";
 import { LoadingSpinner } from "./loading";
 
 import { strings } from "~/utils/strings";
+import ImageUpload from "./imageUpload";
 const {
   PRODUCT_NAME_LABEL,
   PRODUCT_DESCRIPTION_LABEL,
   PRODUCT_BARCODE_LABEL,
   PRODUCT_PRICE_LABEL,
+  PRODUCT_IMAGE_UPLOAD_LABEL,
 } = strings;
 
 export const formSchema = z.object({
@@ -32,13 +34,16 @@ export const formSchema = z.object({
     required_error: "Price is required",
     invalid_type_error: "Price is required and must be a number",
   }),
-  categoryId: z.string().nonempty("Category is required"),
+  //   category: z.string().nonempty("Category is required"),
+  imageSrc: z.string().nonempty("Image is required"),
 });
 
-export type FormData = z.infer<typeof formSchema>;
+export type AddProductFormData = z.infer<typeof formSchema>;
 
 export type AddProductFormProps = {
-  onSubmit: SubmitHandler<FormData> | ((data: FormData) => void);
+  onSubmit:
+    | SubmitHandler<AddProductFormData>
+    | ((data: AddProductFormData) => void);
   mutationInProgress: boolean;
 };
 
@@ -49,8 +54,21 @@ const AddProductForm: FC<AddProductFormProps> = ({
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(formSchema) });
+  } = useForm<AddProductFormData>({ resolver: zodResolver(formSchema) });
+
+  const watchImageSrc = watch("imageSrc");
+
+  type customValueId = "imageSrc";
+  const setCustomValue = (id: customValueId, value: string) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+  };
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -87,7 +105,7 @@ const AddProductForm: FC<AddProductFormProps> = ({
             className="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             id="barcode"
             type="number"
-            {...register("barcode")}
+            {...register("barcode", { valueAsNumber: true })}
           />
           {errors.barcode && (
             <p className="text-sm  text-red-600">{errors.barcode.message}</p>
@@ -99,12 +117,22 @@ const AddProductForm: FC<AddProductFormProps> = ({
             className="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             id="price"
             type="number"
-            {...register("price")}
+            {...register("price", { valueAsNumber: true })}
           />
           {errors.price && (
             <p className="text-sm  text-red-600">{errors.price.message}</p>
           )}
         </div>
+      </div>
+      <div className="form-control mb-5 flex-1">
+        <label htmlFor="imgUpload">{PRODUCT_IMAGE_UPLOAD_LABEL}</label>
+        <ImageUpload
+          value={watchImageSrc}
+          onChange={(value) => setCustomValue("imageSrc", value)}
+        />
+        {errors.imageSrc && (
+          <p className="text-sm  text-red-600">{errors.imageSrc.message}</p>
+        )}
       </div>
       {mutationInProgress ? (
         <div className="my-4">
