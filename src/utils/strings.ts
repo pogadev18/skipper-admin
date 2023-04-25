@@ -8,10 +8,12 @@ export const strings = {
   ADD: "Add",
   CANCEL: "Cancel",
   CATEGORY_ADDED_SUCCESS: "Category added successfully",
+  PRODUCT_ADDED_SUCCESS: "Product added successfully",
   PRODUCT_NAME_LABEL: "Product Name",
   PRODUCT_DESCRIPTION_LABEL: "Product Description",
   PRODUCT_BARCODE_LABEL: "Product Barcode",
   PRODUCT_PRICE_LABEL: "Product Price",
   PRODUCT_IMAGE_UPLOAD_LABEL: "Upload a Product Image",
+  PRODUCT_CATEGORY_LABEL: "Product Category",
   CLICK_TO_UPLOAD: "Click to upload",
 };

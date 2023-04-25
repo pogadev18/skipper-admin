@@ -17,7 +17,7 @@ model Product {
 
   name        String
   description String
-  barcode     String
+  barcode     Float
   price       Float
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])

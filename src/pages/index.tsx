@@ -9,7 +9,6 @@ import PageLayout from "~/components/layout";
 import Modal from "~/components/modal";
 import AddCategoryForm from "~/components/addCategoryForm";
 import type { FormData } from "~/components/addCategoryForm";
-import { LoadingSpinner } from "~/components/loading";
 import AddProductForm from "~/components/addProductForm";
 import type { AddProductFormData } from "~/components/addProductForm";
 
@@ -26,13 +25,11 @@ const Home: NextPage = () => {
     LOREM_IPSUM,
     ADD_PRODUCT_MODAL_TITLE,
     CATEGORY_ADDED_SUCCESS,
+    PRODUCT_ADDED_SUCCESS,
   } = strings;
 
   // trpc cache context
   const ctx = api.useContext();
-
-  const { data: categories, isLoading: isLoadingCategories } =
-    api.category.getAll.useQuery();
 
   const { mutate: createCategory, isLoading: isAddingCategory } =
     api.category.create.useMutation({
@@ -40,6 +37,17 @@ const Home: NextPage = () => {
         toast.success(CATEGORY_ADDED_SUCCESS);
         setShowCategoryModal(false);
         void ctx.category.getAll.invalidate();
+      },
+      onError: (e) => {
+        toast.error(e.message);
+      },
+    });
+
+  const { mutate: createProduct, isLoading: isAddingProduct } =
+    api.product.create.useMutation({
+      onSuccess: () => {
+        toast.success(PRODUCT_ADDED_SUCCESS);
+        setShowProductModal(false);
       },
       onError: (e) => {
         toast.error(e.message);
@@ -94,21 +102,10 @@ const Home: NextPage = () => {
             setOpen={setShowProductModal}
           >
             <AddProductForm
-              onSubmit={(data: AddProductFormData) => console.log(data)}
-              mutationInProgress={false}
+              onSubmit={(data: AddProductFormData) => createProduct(data)}
+              mutationInProgress={isAddingProduct}
             />
           </Modal>
-          <div>
-            {isLoadingCategories ? (
-              <LoadingSpinner />
-            ) : (
-              <ul>
-                {categories?.map((c) => (
-                  <li key={c.id}>{c.category}</li>
-                ))}
-              </ul>
-            )}
-          </div>
         </section>
       </PageLayout>
     </>

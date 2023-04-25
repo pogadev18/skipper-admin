@@ -8,12 +8,15 @@ import { LoadingSpinner } from "./loading";
 
 import { strings } from "~/utils/strings";
 import ImageUpload from "./imageUpload";
+import CategorySelect from "./inputs/categorySelect";
+import type { SelectValue } from "./inputs/categorySelect";
 const {
   PRODUCT_NAME_LABEL,
   PRODUCT_DESCRIPTION_LABEL,
   PRODUCT_BARCODE_LABEL,
   PRODUCT_PRICE_LABEL,
   PRODUCT_IMAGE_UPLOAD_LABEL,
+  PRODUCT_CATEGORY_LABEL,
 } = strings;
 
 export const formSchema = z.object({
@@ -28,14 +31,17 @@ export const formSchema = z.object({
     .nonempty("Description is required"),
   barcode: z.number({
     required_error: "Barcode is required",
-    invalid_type_error: "Barcode is required and must be a number",
+    invalid_type_error: "Barcode is required",
   }),
   price: z.number({
     required_error: "Price is required",
-    invalid_type_error: "Price is required and must be a number",
+    invalid_type_error: "Price is required",
   }),
-  //   category: z.string().nonempty("Category is required"),
-  imageSrc: z.string().nonempty("Image is required"),
+  category: z.object({
+    label: z.string().nonempty({ message: "Category is required" }),
+    value: z.string().nonempty({ message: "Category is required" }),
+  }),
+  imageSrc: z.string().nonempty(),
 });
 
 export type AddProductFormData = z.infer<typeof formSchema>;
@@ -60,15 +66,18 @@ const AddProductForm: FC<AddProductFormProps> = ({
   } = useForm<AddProductFormData>({ resolver: zodResolver(formSchema) });
 
   const watchImageSrc = watch("imageSrc");
+  const watchCategory = watch("category");
 
-  type customValueId = "imageSrc";
-  const setCustomValue = (id: customValueId, value: string) => {
+  type customValueId = "imageSrc" | "category";
+  const setCustomValue = (id: customValueId, value: string | SelectValue) => {
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
       shouldValidate: true,
     });
   };
+
+  console.log("form errors, ", errors);
 
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -125,13 +134,31 @@ const AddProductForm: FC<AddProductFormProps> = ({
         </div>
       </div>
       <div className="form-control mb-5 flex-1">
+        <label htmlFor="cat">{PRODUCT_CATEGORY_LABEL}</label>
+        <CategorySelect
+          value={watchCategory}
+          onChange={(value) => setCustomValue("category", value)}
+        />
+        {errors.category && (
+          <p className="text-sm text-red-600">
+            {errors.category.label?.message ||
+              errors.category.value?.message ||
+              "Category is required"}
+          </p>
+        )}
+      </div>
+      <div className="form-control mb-5 flex-1">
         <label htmlFor="imgUpload">{PRODUCT_IMAGE_UPLOAD_LABEL}</label>
         <ImageUpload
           value={watchImageSrc}
           onChange={(value) => setCustomValue("imageSrc", value)}
         />
         {errors.imageSrc && (
-          <p className="text-sm  text-red-600">{errors.imageSrc.message}</p>
+          <p className="text-sm text-red-600">
+            {errors.imageSrc.message === "Required"
+              ? "Image is required"
+              : errors.imageSrc.message}
+          </p>
         )}
       </div>
       {mutationInProgress ? (
