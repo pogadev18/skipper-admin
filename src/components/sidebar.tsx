@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RxDashboard, RxPerson } from "react-icons/rx";
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import { IoMdCreate } from "react-icons/io";
 import { FiSettings } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -17,9 +17,9 @@ const Sidebar = () => {
             <RxPerson size={20} />
           </div>
         </Link>
-        <Link href="/orders">
+        <Link href="/create">
           <div className="my-4 inline-block cursor-pointer rounded-lg bg-gray-100 p-3 hover:bg-gray-200">
-            <HiOutlineShoppingBag size={20} />
+            <IoMdCreate size={20} />
           </div>
         </Link>
         <Link href="/">

@@ -1,9 +1,14 @@
-import { Prisma } from "@prisma/client";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { formSchema } from "~/components/addProductForm";
 
 export const productRouter = createTRPCRouter({
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.product.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  }),
   create: protectedProcedure
     .input(formSchema)
     .mutation(async ({ ctx, input }) => {

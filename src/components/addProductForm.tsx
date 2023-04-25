@@ -17,6 +17,8 @@ const {
   PRODUCT_PRICE_LABEL,
   PRODUCT_IMAGE_UPLOAD_LABEL,
   PRODUCT_CATEGORY_LABEL,
+  REQUIRED,
+  IMAGE_REQUIRED,
 } = strings;
 
 export const formSchema = z.object({
@@ -155,8 +157,8 @@ const AddProductForm: FC<AddProductFormProps> = ({
         />
         {errors.imageSrc && (
           <p className="text-sm text-red-600">
-            {errors.imageSrc.message === "Required"
-              ? "Image is required"
+            {errors.imageSrc.message === REQUIRED
+              ? IMAGE_REQUIRED
               : errors.imageSrc.message}
           </p>
         )}

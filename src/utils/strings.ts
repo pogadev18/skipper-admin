@@ -16,4 +16,6 @@ export const strings = {
   PRODUCT_IMAGE_UPLOAD_LABEL: "Upload a Product Image",
   PRODUCT_CATEGORY_LABEL: "Product Category",
   CLICK_TO_UPLOAD: "Click to upload",
+  REQUIRED: "Required",
+  IMAGE_REQUIRED: "Image is required",
 };
