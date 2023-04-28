@@ -17,12 +17,12 @@ export const categoryRouter = createTRPCRouter({
       try {
         const userId = ctx.auth.userId;
 
-        const data = {
+        const categoryData = {
           category: input.category,
           userId,
         };
 
-        await ctx.prisma.category.create({ data });
+        await ctx.prisma.category.create({ data: categoryData });
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (error.code === "P2002") {
