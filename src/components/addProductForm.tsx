@@ -79,8 +79,6 @@ const AddProductForm: FC<AddProductFormProps> = ({
     });
   };
 
-  console.log("form errors, ", errors);
-
   return (
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form noValidate onSubmit={handleSubmit(onSubmit)}>

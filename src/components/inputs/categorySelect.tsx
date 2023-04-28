@@ -28,7 +28,6 @@ const CategorySelect: FC<CategorySelectProps> = ({ value, onChange }) => {
         isClearable
         options={formattedCategories}
         value={value}
-        // onChange={(value) => onChange(value as SelectValue)}
         onChange={(selectedValue) => {
           if (selectedValue) {
             onChange(selectedValue);
